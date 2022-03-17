@@ -1,0 +1,7 @@
+#   Name,   Type,  SubType,    Offset,     Size,   Flags
+# bootloader                       0x0    0x8000
+# partition_table               0x8000    0x1000
+      nvs,   data,      nvs,    0x9000,   0x6000,
+ phy_init,   data,      phy,    0xf000,   0x1000,
+  factory,    app,  factory,   0x10000, 0x1F0000,
+font_hs20,   data,         ,  0x200000,  1041896,

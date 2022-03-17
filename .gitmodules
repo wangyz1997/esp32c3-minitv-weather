@@ -1,0 +1,6 @@
+[submodule "components/lvgl"]
+	path = components/lvgl
+	url = https://github.com/lvgl/lvgl.git
+[submodule "components/zlib/zlib"]
+	path = components/zlib/zlib
+	url = https://github.com/madler/zlib.git

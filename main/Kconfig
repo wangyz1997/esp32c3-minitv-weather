@@ -1,0 +1,33 @@
+menu "Application configuration"
+
+    config APP_WIFI_SSID
+        string "WiFi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
+
+    config APP_WIFI_PASSWORD
+        string "WiFi Password"
+        default "mypassword"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
+    
+    config APP_QWEATHER_KEY
+        string "QWeather Key"
+        default ""
+        help
+            QWeather applicatoon key for access online weather info.
+            
+    config APP_QWEATHER_DISTRICT
+        string "QWeather District Name"
+        default "huangdao"
+        help
+            Your district name for QWeather to lookup the weather.
+
+    config APP_QWEATHER_ADM
+        string "QWeather City Name"
+        default "qingdao"
+        help
+            Your city name for QWeather to lookup the weather.
+
+endmenu

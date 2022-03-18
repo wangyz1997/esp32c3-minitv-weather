@@ -37,4 +37,11 @@ menu "BSP configuration"
             range 20 80
     endmenu
 
+    menu "Key configuration"
+        config BSP_KEY_PIN
+            int "Key Pin Number"
+            default 3
+            range 0 10
+    endmenu
+
 endmenu

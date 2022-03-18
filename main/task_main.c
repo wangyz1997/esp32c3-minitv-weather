@@ -4,8 +4,12 @@
 #include "task_lvgl.h"
 #include "task_network.h"
 
+#include "bsp_key.h"
+
 void app_main(void)
 {
+    bsp_key_init();
+
     task_network_create();
     task_lvgl_create();
 

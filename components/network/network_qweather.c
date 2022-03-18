@@ -21,7 +21,7 @@ static weather_forecast_info_t weather_forecast_info;
 
 static esp_err_t network_qweather_get_city_id_name()
 {
-    char url[80];
+    char url[100];
     uint8_t error = 0;
     esp_err_t result = ESP_OK;
 

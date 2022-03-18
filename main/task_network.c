@@ -26,8 +26,8 @@ static void task_handler(void *_args)
     app_wifi_sntp_init();
     
     /* 获取天气 */
-    esp_err_t error = network_qweather_update_now();
-    if(error != ESP_OK) { //获取失败
+    int error = network_qweather_update_now();
+    if(error != 200) { //获取失败
         xEventGroupSetBits(network_event_group, NETWORK_DATA_ERROR_EVT); //发送获取失败事件
     }
     /* 等待获取网络时间 */
@@ -47,7 +47,7 @@ static void task_handler(void *_args)
         
         if(cnt >= update_period_miniute*60*10) {
             error = network_qweather_update_now();
-            if(error != ESP_OK) { //获取失败
+            if(error != 200) { //获取失败
                 xEventGroupSetBits(network_event_group, NETWORK_DATA_ERROR_EVT); //发送获取失败事件
             } else {
                 xEventGroupSetBits(network_event_group, NETWORK_DATA_READY_EVT); //发送获取成功事件

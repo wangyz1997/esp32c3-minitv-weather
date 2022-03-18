@@ -21,7 +21,7 @@ typedef struct {
     char day2_weather[32]; //天气
 } weather_forecast_info_t;
 
-esp_err_t network_qweather_update_now();
+int network_qweather_update_now();
 char *network_qweather_get_city_name();
 weather_now_info_t *network_qweather_get_weather_now_info();
 weather_forecast_info_t *network_qweather_get_weather_forecast_info();

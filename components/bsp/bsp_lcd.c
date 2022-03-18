@@ -12,6 +12,8 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
+#include "sdkconfig.h"
+
 const static char *TAG = "bsp_lcd";
 
 /**
@@ -27,8 +29,8 @@ static void lcd_spi_pre_transfer_callback(spi_transaction_t *spi);
  */
 static const spi_bus_config_t lcd_spi_bus_config = {
     .miso_io_num = -1, //未使用
-    .mosi_io_num = BSP_LCD_PIN_MOSI,
-    .sclk_io_num = BSP_LCD_PIN_CLK,
+    .mosi_io_num = CONFIG_BSP_LCD_PIN_MOSI,
+    .sclk_io_num = CONFIG_BSP_LCD_PIN_CLK,
     .quadwp_io_num = -1, //未使用
     .quadhd_io_num = -1, //未使用
     .max_transfer_sz = BSP_LCD_X_PIXELS*BSP_LCD_Y_PIXELS*2, //最大传输大小为整个屏幕的像素数*2个字节
@@ -38,9 +40,9 @@ static const spi_bus_config_t lcd_spi_bus_config = {
  * @brief LCD外设配置
  */
 static const spi_device_interface_config_t lcd_spi_driver_config = {
-    .clock_speed_hz = BSP_LCD_SPI_CLOCK_MHZ*1000000, //SPI总线时钟频率，Hz
+    .clock_speed_hz = CONFIG_BSP_LCD_SPI_CLOCK_MHZ*1000000, //SPI总线时钟频率，Hz
     .mode = 0, //SPI模式0，CPOL=0，CPHA=0
-    .spics_io_num = BSP_LCD_PIN_CS, //CS引脚
+    .spics_io_num = CONFIG_BSP_LCD_PIN_CS, //CS引脚
     .queue_size = sizeof(lcd_trans)/sizeof(spi_transaction_t), //传输队列深度
     .pre_cb = lcd_spi_pre_transfer_callback, //SPI每次传输前的回调函数，用于控制D/C脚
 };
@@ -77,7 +79,7 @@ static void lcd_spi_pre_transfer_callback(spi_transaction_t *trans)
 {
     uint32_t dc = (uint32_t)(trans->user);
     /* 设置D/C引脚的电平 */
-    gpio_set_level(BSP_LCD_PIN_DC, dc);
+    gpio_set_level(CONFIG_BSP_LCD_PIN_DC, dc);
 }
 
 /**
@@ -321,7 +323,7 @@ static const ledc_timer_config_t lcd_bl_ledc_timer = {
 static const ledc_channel_config_t lcd_bl_ledc_channel = {
    .channel    = LEDC_CHANNEL_0, //LCD背光使用通道0
    .duty       = 0, //占空比0
-   .gpio_num   = BSP_LCD_PIN_BL, //连接背光的IO
+   .gpio_num   = CONFIG_BSP_LCD_PIN_BL, //连接背光的IO
    .speed_mode = LEDC_LOW_SPEED_MODE,
    .hpoint     = 0,
    .timer_sel  = LEDC_TIMER_0, //使用上面初始化过的定时器
@@ -330,7 +332,7 @@ static const ledc_channel_config_t lcd_bl_ledc_channel = {
 static const gpio_config_t lcd_io_conf = {
     .intr_type = GPIO_INTR_DISABLE,
     .mode = GPIO_MODE_OUTPUT,
-    .pin_bit_mask = 1ull<<BSP_LCD_PIN_DC | 1ull<<BSP_LCD_PIN_RST,
+    .pin_bit_mask = 1ull<<CONFIG_BSP_LCD_PIN_DC | 1ull<<CONFIG_BSP_LCD_PIN_RST,
     .pull_up_en = 0,
     .pull_down_en = 0,
 };
@@ -345,9 +347,9 @@ spi_device_handle_t bsp_lcd_init()
     /* 初始化非SPI的GPIO */
     gpio_config(&lcd_io_conf);
     /* 复位LCD */
-    gpio_set_level(BSP_LCD_PIN_RST, 0); //复位
+    gpio_set_level(CONFIG_BSP_LCD_PIN_RST, 0); //复位
     vTaskDelay(pdMS_TO_TICKS(10));
-    gpio_set_level(BSP_LCD_PIN_RST, 1); //复位
+    gpio_set_level(CONFIG_BSP_LCD_PIN_RST, 1); //复位
     vTaskDelay(pdMS_TO_TICKS(50));
 
     /* 初始化总线 */

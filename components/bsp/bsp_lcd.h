@@ -5,15 +5,6 @@
 
 /* 屏幕总线参数 */
 #define BSP_LCD_SPI_HOST       SPI2_HOST //即VSPI
-#define BSP_LCD_SPI_CLOCK_MHZ  40        //LCD所用SPI总线的时钟频率
-
-/* 屏幕硬件连接 */
-#define BSP_LCD_PIN_CS   6
-#define BSP_LCD_PIN_CLK  5
-#define BSP_LCD_PIN_MOSI 2
-#define BSP_LCD_PIN_DC   7
-#define BSP_LCD_PIN_RST  1
-#define BSP_LCD_PIN_BL   10
 
 /* 屏幕分辨率 */
 #define BSP_LCD_X_PIXELS 240

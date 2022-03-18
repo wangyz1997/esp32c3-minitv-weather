@@ -1,0 +1,40 @@
+menu "BSP configuration"
+
+    menu "LCD configuration"
+        config BSP_LCD_PIN_RST
+            int "LCD RST Pin Number"
+            default 1
+            range 0 10
+
+        config BSP_LCD_PIN_MOSI
+            int "LCD MOSI Pin Number"
+            default 2
+            range 0 10
+
+        config BSP_LCD_PIN_CLK
+            int "LCD CLK Pin Number"
+            default 5
+            range 0 10
+
+        config BSP_LCD_PIN_CS
+            int "LCD CS Pin Number"
+            default 6
+            range 0 10
+
+        config BSP_LCD_PIN_DC
+            int "LCD D/C Pin Number"
+            default 7
+            range 0 10
+
+        config BSP_LCD_PIN_BL
+            int "LCD BackLight Pin Number"
+            default 10
+            range 0 10
+
+        config BSP_LCD_SPI_CLOCK_MHZ
+            int "LCD SPI Clock(MHz)"
+            default 40
+            range 20 80
+    endmenu
+
+endmenu

@@ -12,8 +12,8 @@
 
 void task_ui_create();
 
-void task_ui_switch_connecting_screen();
-void task_ui_switch_main_screen();
+void task_ui_load_connecting_screen();
+void task_ui_load_main_screen();
 
 void task_ui_update_connecting_status(ui_connecting_screen_status_t status);
 

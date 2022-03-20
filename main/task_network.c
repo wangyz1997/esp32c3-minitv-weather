@@ -18,7 +18,7 @@ static void task_handler(void *_args)
     const TickType_t xPeriod = pdMS_TO_TICKS(100);
 
     /* 显示正在连接屏幕 */
-    task_ui_switch_connecting_screen();
+    task_ui_load_connecting_screen();
     task_ui_update_connecting_status(status_waiting_wifi);
     /* 初始化WiFi并等待连接 */
     app_wifi_init();
@@ -37,12 +37,12 @@ static void task_handler(void *_args)
     while(sntp_get_sync_status() == SNTP_SYNC_STATUS_RESET) {
         vTaskDelay(1);
     }
-    /* 数据获取成功 切换到主界面 */
+    /* 数据获取成功 更新数据并切换到主界面 */
     // xEventGroupSetBits(network_event_group, NETWORK_DATA_READY_EVT);
-    task_ui_switch_main_screen();
     task_ui_update_city_name(network_qweather_get_city_name());
     task_ui_update_weather_now(network_qweather_get_weather_now_info());
     task_ui_update_weather_forecast(network_qweather_get_weather_forecast_info());
+    task_ui_load_main_screen();
 
     uint32_t cnt = 0;
     while(1) {

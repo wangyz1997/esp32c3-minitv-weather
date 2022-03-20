@@ -10,7 +10,12 @@
 
 const uint32_t update_period_miniute = 10;
 
-EventGroupHandle_t network_event_group;
+void task_network_update_weather()
+{
+    task_ui_update_city_name(network_qweather_get_city_name());
+    task_ui_update_weather_now(network_qweather_get_weather_now_info());
+    task_ui_update_weather_forecast(network_qweather_get_weather_forecast_info());
+}
 
 static void task_handler(void *_args)
 {
@@ -25,23 +30,22 @@ static void task_handler(void *_args)
     xEventGroupWaitBits(wifi_event_group, WIFI_GOT_IP_EVT, pdTRUE, pdFALSE, portMAX_DELAY);
     /* 显示连接成功屏幕 */
     task_ui_update_connecting_status(status_fetching_data);
-    // xEventGroupSetBits(network_event_group, NETWORK_CONNECTED_EVT);
     /* 初始化sntp与时区 */
     app_wifi_sntp_init();
     /* 获取天气 */
     int error = network_qweather_update_now();
     if(error != 200) { //获取失败
-        xEventGroupSetBits(network_event_group, NETWORK_DATA_ERROR_EVT); //发送获取失败事件
+        task_ui_update_connecting_status(status_data_error);
+        while(1) {
+            vTaskDelay(1);
+        }
     }
     /* 等待获取网络时间 */
     while(sntp_get_sync_status() == SNTP_SYNC_STATUS_RESET) {
         vTaskDelay(1);
     }
     /* 数据获取成功 更新数据并切换到主界面 */
-    // xEventGroupSetBits(network_event_group, NETWORK_DATA_READY_EVT);
-    task_ui_update_city_name(network_qweather_get_city_name());
-    task_ui_update_weather_now(network_qweather_get_weather_now_info());
-    task_ui_update_weather_forecast(network_qweather_get_weather_forecast_info());
+    task_network_update_weather();
     task_ui_load_main_screen();
 
     uint32_t cnt = 0;
@@ -54,10 +58,8 @@ static void task_handler(void *_args)
         
         if(cnt >= update_period_miniute*60*10) {
             error = network_qweather_update_now();
-            if(error != 200) { //获取失败
-                xEventGroupSetBits(network_event_group, NETWORK_DATA_ERROR_EVT); //发送获取失败事件
-            } else {
-                xEventGroupSetBits(network_event_group, NETWORK_DATA_READY_EVT); //发送获取成功事件
+            if(error == 200) { //获取成功
+                task_network_update_weather();
             }
 
             cnt = 0;
@@ -69,6 +71,5 @@ static void task_handler(void *_args)
 
 void task_network_create()
 {
-    network_event_group = xEventGroupCreate();
     xTaskCreate(task_handler, "Network Task", 8192, NULL, 3, NULL);
 }

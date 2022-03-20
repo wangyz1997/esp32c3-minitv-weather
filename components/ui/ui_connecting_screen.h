@@ -8,7 +8,7 @@ typedef enum {
     status_data_error,
 } ui_connecting_screen_status_t;
 
-void ui_connecting_screen_show(ui_connecting_screen_status_t status);
+void ui_connecting_screen_show();
 void ui_connecting_screen_update(ui_connecting_screen_status_t status);
 void ui_connecting_screen_delete();
 

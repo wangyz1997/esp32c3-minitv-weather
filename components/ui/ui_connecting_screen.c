@@ -9,7 +9,7 @@ static lv_obj_t *spinner_connecting;
  * @brief 显示WiFi连接屏幕
  * 
  */
-void ui_connecting_screen_show(ui_connecting_screen_status_t status)
+void ui_connecting_screen_show()
 {
     label_connecting = lv_label_create(lv_scr_act());
     lv_obj_set_width(label_connecting, 200);
@@ -20,8 +20,6 @@ void ui_connecting_screen_show(ui_connecting_screen_status_t status)
     spinner_connecting = lv_spinner_create(lv_scr_act(), 1000, 60);
     lv_obj_set_size(spinner_connecting, 50, 50);
     lv_obj_align(spinner_connecting, LV_ALIGN_CENTER, 0, 40);
-
-    ui_connecting_screen_update(status);
 }
 
 void ui_connecting_screen_update(ui_connecting_screen_status_t status)

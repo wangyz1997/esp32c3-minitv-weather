@@ -254,7 +254,7 @@ void ui_main_screen_timedate_update()
     mempcpy(&tm_last, tm_now, sizeof(tm_last)); //保存上一次执行时的时间
 }
 
-void ui_main_screen_weather_now_update(weather_now_info_t *weather_now_info)
+void ui_main_screen_weather_now_update(const weather_now_info_t *weather_now_info)
 {
     lv_label_set_text(label_weather, weather_now_info->weather);
     lv_label_set_text_fmt(label_temperature, "#993300 \ue900# %d℃", weather_now_info->temperature);
@@ -263,7 +263,7 @@ void ui_main_screen_weather_now_update(weather_now_info_t *weather_now_info)
     lv_label_set_text(label_weather_icon, ui_qweather_icon_get_from_code(weather_now_info->weather_icon));
 }
 
-void ui_main_screen_weather_forecast_update(weather_forecast_info_t *weather_forecast_info)
+void ui_main_screen_weather_forecast_update(const weather_forecast_info_t *weather_forecast_info)
 {
     lv_label_set_text(label_forecast1_weather, weather_forecast_info->day1_weather);
     lv_label_set_text_fmt(label_forecast1_temp, "%d~%d℃", weather_forecast_info->day1_low_temp, weather_forecast_info->day1_high_temp);

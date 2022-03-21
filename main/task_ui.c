@@ -132,9 +132,9 @@ void task_ui_init()
 static void task_handler(void *_args)
 {
     task_ui_init();
-    task_network_create();
 
-    task_ui_queue_handle = xQueueCreate(8, sizeof(task_ui_message_t));
+    task_ui_queue_handle = xQueueCreate(4, sizeof(task_ui_message_t));
+    task_network_create();
 
     while(1) {
         task_ui_message_t msg;
